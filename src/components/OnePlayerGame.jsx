@@ -3,9 +3,9 @@ import GridDesign from "./GridDesign";
 import bgImg from "../assets/backgoround.jpg";
 
 const winningPositions = [
-  [0,1,2],[3,4,5],[6,7,8],
-  [0,3,6],[1,4,7],[2,5,8],
-  [0,4,8],[2,4,6]
+  [0, 1, 2], [3, 4, 5], [6, 7, 8],
+  [0, 3, 6], [1, 4, 7], [2, 5, 8],
+  [0, 4, 8], [2, 4, 6]
 ];
 
 export default function OnePlayerGame({ setMode }) {
@@ -21,9 +21,10 @@ export default function OnePlayerGame({ setMode }) {
     const newGrid = [...gameGrid];
     newGrid[index] = currentPlayer;
     setGameGrid(newGrid);
-    checkGameOver(newGrid);
 
-    if (!gameOver) {
+    const ended = checkGameOver(newGrid); // returns true if game ended
+
+    if (!ended && currentPlayer === "X") {
       setCurrentPlayer("O");
       setTimeout(() => computerMove(newGrid), 500);
     }
@@ -37,23 +38,26 @@ export default function OnePlayerGame({ setMode }) {
     const newGrid = [...grid];
     newGrid[randomIndex] = "O";
     setGameGrid(newGrid);
-    checkGameOver(newGrid);
-    setCurrentPlayer("X");
+
+    const ended = checkGameOver(newGrid); // check if computer won
+    if (!ended) setCurrentPlayer("X");
   };
 
   const checkGameOver = (grid) => {
-    for (const [a,b,c] of winningPositions) {
+    for (const [a, b, c] of winningPositions) {
       if (grid[a] && grid[a] === grid[b] && grid[a] === grid[c]) {
         setWinner(grid[a]);
-        setWinningCells([a,b,c]);
+        setWinningCells([a, b, c]);
         setGameOver(true);
-        return;
+        return true; // game ended
       }
     }
     if (grid.every(cell => cell !== "")) {
       setWinner("Tie");
       setGameOver(true);
+      return true; // game ended
     }
+    return false; // game not ended
   };
 
   const resetGame = () => {
@@ -67,7 +71,7 @@ export default function OnePlayerGame({ setMode }) {
   return (
     <div
       className="flex flex-col items-center justify-center min-h-screen p-4 bg-cover bg-center"
-      style={{ backgroundImage: `url(${bgImg})` }} // set your image as background
+      style={{ backgroundImage: `url(${bgImg})` }}
     >
       <div className="backdrop-blur-md bg-white/10 border border-white/20 rounded-3xl p-6 shadow-2xl w-[95vw] max-w-[30rem]">
         <div className="flex justify-start mb-4">
