@@ -6,12 +6,24 @@ import TwoPlayerGame from "./components/TwoPlayerGame";
 export default function App() {
   const [mode, setMode] = useState(""); // "" | "one" | "two"
 
-  if (!mode) return <ModeSelection setMode={setMode} />;
-
   return (
     <>
+      {!mode && <ModeSelection setMode={setMode} />}
       {mode === "one" && <OnePlayerGame setMode={setMode} />}
       {mode === "two" && <TwoPlayerGame setMode={setMode} />}
+
+      {/* Footer */}
+      <div
+        style={{
+          position: "fixed",
+          bottom: "10px",
+          right: "10px",
+          fontSize: "18px",
+          color: "#BCCCDC",
+        }}
+      >
+        Developed by Foram Modi © 2025
+      </div>
     </>
   );
 }
