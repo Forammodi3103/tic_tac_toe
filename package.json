@@ -4,6 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "homepage": "https://forammodi3103.github.io/tic_tac_toe",
+
   "scripts": {
     "dev": "vite",
     "build": "vite build",
