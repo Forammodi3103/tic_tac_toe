@@ -4,15 +4,13 @@
   "version": "0.0.0",
   "type": "module",
   "homepage": "https://forammodi3103.github.io/tic_tac_toe",
-
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview",
-    "lint": "eslint .",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
-  },
+"scripts": {
+  "dev": "vite",
+  "build": "vite build",
+  "preview": "vite preview",
+  "predeploy": "npm run build",
+  "deploy": "gh-pages -d dist"
+},
   "dependencies": {
     "@tailwindcss/vite": "^4.1.14",
     "react": "^19.1.1",
