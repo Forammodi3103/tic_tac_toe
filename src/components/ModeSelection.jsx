@@ -1,4 +1,4 @@
-import bgImg from "../assets/backgoround.jpg"; // adjust the path according to your folder structure
+import bgImg from "../assets/backgoround.jpg";
 
 export default function ModeSelection({ setMode }) {
   return (
