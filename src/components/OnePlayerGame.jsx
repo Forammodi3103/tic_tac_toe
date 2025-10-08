@@ -22,7 +22,7 @@ export default function OnePlayerGame({ setMode }) {
     newGrid[index] = currentPlayer;
     setGameGrid(newGrid);
 
-    const ended = checkGameOver(newGrid); // returns true if game ended
+    const ended = checkGameOver(newGrid);
 
     if (!ended && currentPlayer === "X") {
       setCurrentPlayer("O");
@@ -31,15 +31,44 @@ export default function OnePlayerGame({ setMode }) {
   };
 
   const computerMove = (grid) => {
-    const emptyIndices = grid.map((v, i) => (v === "" ? i : null)).filter(i => i !== null);
-    if (emptyIndices.length === 0 || gameOver) return;
+    if (gameOver) return;
 
-    const randomIndex = emptyIndices[Math.floor(Math.random() * emptyIndices.length)];
+    // Helper to find a winning or blocking move
+    const findMove = (player) => {
+      for (const [a, b, c] of winningPositions) {
+        const line = [grid[a], grid[b], grid[c]];
+        const emptyIndex = [a, b, c].find(i => grid[i] === "");
+        if (line.filter(cell => cell === player).length === 2 && emptyIndex !== undefined) {
+          return emptyIndex;
+        }
+      }
+      return null;
+    };
+
+    // 1. Try to win
+    let move = findMove("O");
+    // 2. Block player win
+    if (move === null) move = findMove("X");
+    // 3. Take center
+    if (move === null && grid[4] === "") move = 4;
+    // 4. Take a corner
+    if (move === null) {
+      const corners = [0, 2, 6, 8].filter(i => grid[i] === "");
+      if (corners.length) move = corners[Math.floor(Math.random() * corners.length)];
+    }
+    // 5. Take a side
+    if (move === null) {
+      const sides = [1, 3, 5, 7].filter(i => grid[i] === "");
+      if (sides.length) move = sides[Math.floor(Math.random() * sides.length)];
+    }
+
+    if (move === null) return;
+
     const newGrid = [...grid];
-    newGrid[randomIndex] = "O";
+    newGrid[move] = "O";
     setGameGrid(newGrid);
 
-    const ended = checkGameOver(newGrid); // check if computer won
+    const ended = checkGameOver(newGrid);
     if (!ended) setCurrentPlayer("X");
   };
 
@@ -49,15 +78,15 @@ export default function OnePlayerGame({ setMode }) {
         setWinner(grid[a]);
         setWinningCells([a, b, c]);
         setGameOver(true);
-        return true; // game ended
+        return true;
       }
     }
     if (grid.every(cell => cell !== "")) {
       setWinner("Tie");
       setGameOver(true);
-      return true; // game ended
+      return true;
     }
-    return false; // game not ended
+    return false;
   };
 
   const resetGame = () => {
