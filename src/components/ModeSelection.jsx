@@ -1,14 +1,23 @@
 import bgImg from "../assets/backgoround.jpg";
 
+import logoUrl from "../assets/logo.svg";
+
 export default function ModeSelection({ setMode }) {
   return (
     <div
       className="flex flex-col items-center justify-center min-h-screen p-4 sm:p-6 md:p-8 bg-cover bg-center"
       style={{ backgroundImage: `url(${bgImg})` }}
     >
-      <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-white mb-6 font-bold drop-shadow-lg text-center">
-        Tic Tac Toe
-      </h1>
+      <div className="flex items-center gap-3 sm:gap-4 md:gap-5 mb-6">
+        <img
+          src={logoUrl}
+          alt="Tic Tac Toe logo"
+          className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 drop-shadow-md"
+        />
+        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-white font-bold drop-shadow-lg text-center">
+          Tic Tac Toe
+        </h1>
+      </div>
 
       <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 md:gap-8">
         <button
